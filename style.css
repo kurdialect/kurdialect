@@ -1,0 +1,430 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+}
+
+#app-title {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: rgba(192, 85, 16, 0.7);
+  margin: 0;
+}
+
+#app-title .ialect {
+  color: rgba(46, 105, 149, 0.7);
+}
+
+#app-title .blend-d {
+  background: linear-gradient(90deg, rgba(192, 85, 16, 0.7) 15%, rgba(46, 105, 149, 0.7) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.install-button {
+  background-color: #c05510;
+  color: white;
+  font-size: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-align: center;
+  line-height: 50px;
+}
+
+.install-icon {
+  color: #808080;
+  font-size: 24px;
+}
+
+.install-button:hover {
+  background-color: #a44b0b;
+}
+
+.search-container {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+}
+
+#searchButton {
+  background-color: #2e6095;
+  color: white;
+}
+
+#clearButton {
+  background-color: #f5c265;
+  color: white;
+}
+
+#loadingScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 500;
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+}
+
+#output {
+  width: fit-content;
+  min-width: 400px;
+  max-width: 700px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin: 20px auto;
+  max-height: 65vh;
+  overflow-y: auto;
+  border: 1px solid #e8e8e8;
+  display: none;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.3s ease;
+}
+
+#output.visible {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.search-result {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin: 12px 0;
+  padding: 16px;
+  background-color: #fafafa;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.search-result:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  border-color: #e0e0e0;
+}
+
+.search-result:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.search-result:nth-child(even):hover {
+  background-color: #ffffff;
+}
+
+.result-text {
+  flex: 1;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.result-text p {
+  margin: 0;
+  padding: 8px 12px;
+  line-height: 1.5;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 6px;
+  background-color: #ffffff;
+  border-left: 3px solid;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.result-text p:nth-child(1) {
+  border-left-color: #c05510;
+  background-color: rgba(192, 85, 16, 0.03);
+}
+
+.result-text p:nth-child(2) {
+  border-left-color: #2e6095;
+  background-color: rgba(46, 105, 149, 0.03);
+}
+
+.result-text p:nth-child(3) {
+  border-left-color: #f5c265;
+  background-color: rgba(245, 194, 101, 0.03);
+}
+
+.result-image img {
+  max-width: 130px;
+  max-height: 130px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ffffff;
+  transition: transform 0.2s ease;
+}
+
+.result-image img:hover {
+  transform: scale(1.05);
+}
+
+.search-heading {
+  margin: 20px auto;
+  max-width: 700px;
+  text-align: center;
+}
+
+.search-heading h3 {
+  color: #c05510;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  padding: 12px 16px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  border-left: 4px solid #c05510;
+  display: inline-block;
+  letter-spacing: 0.3px;
+}
+
+.search-section {
+  margin-bottom: 25px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #c05510;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 14px;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  border-left: 3px solid #c05510;
+  letter-spacing: 0.3px;
+  width: fit-content;
+}
+
+#output p:only-child {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  font-style: italic;
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  .search-container {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input[type="text"] {
+    width: 80%;
+  }
+
+  button {
+    width: 80%;
+    margin: 5px 0;
+  }
+
+  #output {
+    padding: 15px;
+    margin: 15px auto;
+    max-height: 55vh;
+    max-width: 95vw;
+  }
+
+  .search-heading {
+    margin: 15px auto;
+    max-width: 95vw;
+  }
+
+  .search-heading h3 {
+    font-size: 18px;
+    padding: 10px 12px;
+  }
+
+  .search-section h3 {
+    font-size: 16px;
+    padding: 8px 10px;
+    margin-bottom: 12px;
+  }
+
+  .search-result {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    margin: 8px 0;
+  }
+
+  .result-text {
+    margin-right: 0;
+    margin-bottom: 12px;
+    gap: 4px;
+  }
+
+  .result-text p {
+    padding: 6px 10px;
+    font-size: 15px;
+  }
+
+  .result-image img {
+    max-width: 100%;
+    max-height: 120px;
+    align-self: center;
+  }
+
+  .install-button {
+    font-size: 25px;
+    width: 45px;
+    height: 45px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .install-button:before {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  h3 {
+    font-size: 20px;
+  }
+
+  input[type="text"] {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+
+  .search-heading h3 {
+    font-size: 16px;
+  }
+
+  .search-section h3 {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+}
+
+
+/* =========================================
+   EASTER EGGS
+   ========================================= */
+
+/* --- Easter Egg 1: "11-B" (Spin & Toggle Mode) --- */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin-animation {
+  animation: spin 1s linear; /* Spins once then stops */
+}
+
+/* Mode Styles (Triggered after spin) */
+body.easter-egg-mode .install-button {
+    background-color: #17344a !important; 
+}
+
+body.easter-egg-mode #searchButton {
+    background-color: #a18e3d !important; 
+}
+
+body.easter-egg-mode #clearButton {
+    background-color: #1b4d3e !important; 
+}
+
+.shahid-jabar {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    
+    background: linear-gradient(to right, #1b4d3e, #17344a, #a18e3d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+body.easter-egg-mode .shahid-jabar {
+    display: block;
+}
+
+
+/* --- Easter Egg 2: "6-7" (Tilt Search Bar) --- */
+
+@keyframes tilt-67 {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-25deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(25deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.tilt-67 {
+    animation: tilt-67 1s ease-in-out;
+}
